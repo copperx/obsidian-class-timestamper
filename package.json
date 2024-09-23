@@ -1,5 +1,5 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "class-timestamper",
 	"version": "1.0.4",
 	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
 	"main": "main.js",
