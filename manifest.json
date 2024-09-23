@@ -1,7 +1,7 @@
 {
 	"id": "class-timestamper",
 	"name": "class-timestamper",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"minAppVersion": "0.15.0",
 	"description": "Timestamps the current class.",
 	"author": "copperx",
