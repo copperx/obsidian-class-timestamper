@@ -16,6 +16,13 @@ export default class ClassSchedulePlugin extends Plugin {
                 const classSchedule = [
                     {
                         day: 'Monday',
+                        startTime: '10:00',
+                        endTime: '11:50',
+                        className: 'C S 171G D02 MODERN COMPUTING IN PRACTICE',
+                        duration: 110
+                    },
+                    {
+                        day: 'Monday',
                         startTime: '13:00',
                         endTime: '14:50',
                         className: 'COSC 1437 02 PROGRAMMING FUNDAMENTALS II',
@@ -40,7 +47,14 @@ export default class ClassSchedulePlugin extends Plugin {
                         startTime: '17:30',
                         endTime: '18:40',
                         className: 'COSC 2336 61 PROGRAMMING FUNDAMENTALS III',
-                        duration: 70
+                        duration: 80
+                    },
+                    {
+                        day: 'Wednesday',
+                        startTime: '10:00',
+                        endTime: '11:50',
+                        className: 'C S 171G D02 MODERN COMPUTING IN PRACTICE',
+                        duration: 110
                     },
                     {
                         day: 'Wednesday',
@@ -68,7 +82,7 @@ export default class ClassSchedulePlugin extends Plugin {
                         startTime: '17:30',
                         endTime: '18:40',
                         className: 'COSC 2336 61 PROGRAMMING FUNDAMENTALS III',
-                        duration: 70
+                        duration: 80
                     },
                 ];
 
