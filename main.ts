@@ -4,10 +4,13 @@ export default class ClassSchedulePlugin extends Plugin {
     private currentClassIndex = 0;
 
     async onload() {
+        // Ensure both commands are registered and add logging for confirmation.
+        console.log('Loading Class Schedule Plugin...');
+
         // Register the command for cycling through classes with Command-Option-L
         this.addCommand({
-            id: 'cycle-through-classes',
-            name: 'Cycle Through Classes',
+            id: 'cycle-through-classes-command', // Ensure the ID is unique
+            name: 'Cycle Through Classes', // This will show up in the settings
             hotkeys: [
                 {
                     modifiers: ["Mod", "Alt"],
@@ -19,9 +22,13 @@ export default class ClassSchedulePlugin extends Plugin {
             },
         });
 
+        // Log confirmation that the command is being added
+        console.log('Cycle Through Classes command registered');
+
+        // Register the command to insert class schedule
         this.addCommand({
-            id: 'insert-class-schedule',
-            name: 'Insert Class Schedule',
+            id: 'insert-class-schedule-command', // Ensure the ID is unique
+            name: 'Insert Class Schedule', // This will show up in the settings
             hotkeys: [
                 {
                     modifiers: ["Ctrl"],
@@ -30,8 +37,15 @@ export default class ClassSchedulePlugin extends Plugin {
             ],
             editorCallback: (editor: Editor, view: MarkdownView) => {
                 this.insertClassSchedule(editor);
-            }
+            },
         });
+
+        // Log confirmation that the command is being added
+        console.log('Insert Class Schedule command registered');
+    }
+
+    onunload() {
+        console.log('Unloading Class Schedule Plugin...');
     }
 
     // Function to cycle through classes and replace the current line with the next class
@@ -51,6 +65,8 @@ export default class ClassSchedulePlugin extends Plugin {
 
         // Increment the class index and loop back if necessary
         this.currentClassIndex = (this.currentClassIndex + 1) % totalClasses;
+
+        console.log(`Cycled to class: ${selectedClass.className}`);
     }
 
     // Function to insert the class schedule based on the current time
@@ -184,9 +200,5 @@ export default class ClassSchedulePlugin extends Plugin {
                 duration: 80
             },
         ];
-    }
-
-    onunload() {
-
     }
 }
