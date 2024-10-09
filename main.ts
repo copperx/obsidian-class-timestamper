@@ -4,13 +4,11 @@ export default class ClassSchedulePlugin extends Plugin {
     private currentClassIndex = 0;
 
     async onload() {
-        // Ensure both commands are registered and add logging for confirmation.
         console.log('Loading Class Schedule Plugin...');
 
-        // Register the command for cycling through classes with Command-Option-L
         this.addCommand({
-            id: 'cycle-through-classes-command', // Ensure the ID is unique
-            name: 'Cycle Through Classes', // This will show up in the settings
+            id: 'cycle-through-classes-command',
+            name: 'Cycle Through Classes',
             hotkeys: [
                 {
                     modifiers: ["Mod", "Alt"],
@@ -22,13 +20,11 @@ export default class ClassSchedulePlugin extends Plugin {
             },
         });
 
-        // Log confirmation that the command is being added
         console.log('Cycle Through Classes command registered');
 
-        // Register the command to insert class schedule
         this.addCommand({
-            id: 'insert-class-schedule-command', // Ensure the ID is unique
-            name: 'Insert Class Schedule', // This will show up in the settings
+            id: 'insert-class-schedule-command',
+            name: 'Insert Class Schedule',
             hotkeys: [
                 {
                     modifiers: ["Ctrl"],
@@ -40,7 +36,6 @@ export default class ClassSchedulePlugin extends Plugin {
             },
         });
 
-        // Log confirmation that the command is being added
         console.log('Insert Class Schedule command registered');
     }
 
@@ -48,7 +43,6 @@ export default class ClassSchedulePlugin extends Plugin {
         console.log('Unloading Class Schedule Plugin...');
     }
 
-    // Function to cycle through classes and replace the current line with the next class
     cycleThroughClasses(editor: Editor) {
         const classSchedule = this.getClassSchedule();
         const totalClasses = classSchedule.length;
@@ -56,8 +50,8 @@ export default class ClassSchedulePlugin extends Plugin {
         // Get the current class
         const selectedClass = classSchedule[this.currentClassIndex];
 
-        // Prepare the text to insert
-        const classText = `${selectedClass.day}, ${selectedClass.startTime} - ${selectedClass.endTime}: ${selectedClass.className}`;
+        // Prepare the text to insert with ## at the beginning and only the start time
+        const classText = `## ${selectedClass.day}, ${selectedClass.startTime}: ${selectedClass.className}`;
 
         // Replace the current line with the class info
         const currentLine = editor.getCursor().line;
@@ -69,11 +63,9 @@ export default class ClassSchedulePlugin extends Plugin {
         console.log(`Cycled to class: ${selectedClass.className}`);
     }
 
-    // Function to insert the class schedule based on the current time
     insertClassSchedule(editor: Editor) {
         const classSchedule = this.getClassSchedule();
 
-        // Get current date and time
         let currentDate = new Date();
         let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -82,10 +74,8 @@ export default class ClassSchedulePlugin extends Plugin {
         let currentDay = currentDate.getDate();
         let currentTimeMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
 
-        // Filter classes for today
         let todayClasses = classSchedule.filter(c => c.day === currentDayName);
 
-        // Find the class that started before or at current time and has the latest start time
         let selectedClass = null;
         let latestStartTime = -1;
         for (let c of todayClasses) {
@@ -96,9 +86,8 @@ export default class ClassSchedulePlugin extends Plugin {
             }
         }
 
-        // If no class has started yet today, find the next class
         if (selectedClass === null) {
-            let earliestStartTimeAfter = 24 * 60; // Max possible time
+            let earliestStartTimeAfter = 24 * 60; 
             for (let c of todayClasses) {
                 let classStartTime = this.timeStringToMinutes(c.startTime);
                 if (classStartTime > currentTimeMinutes && classStartTime < earliestStartTimeAfter) {
@@ -108,7 +97,6 @@ export default class ClassSchedulePlugin extends Plugin {
             }
         }
 
-        // Prepare the text to insert
         let headerText = '';
         if (selectedClass === null) {
             headerText = `## ${currentDayName}, ${currentMonthName} ${currentDay}, No classes today.`;
@@ -116,17 +104,14 @@ export default class ClassSchedulePlugin extends Plugin {
             headerText = `## ${currentDayName}, ${currentMonthName} ${currentDay}, ${selectedClass.startTime} ${selectedClass.className}`;
         }
 
-        // Insert the formatted text as a header followed by two newlines
         editor.replaceSelection(`${headerText}\n\n`);
     }
 
-    // Utility function to convert time strings to minutes
     timeStringToMinutes(timeStr: string): number {
         let [hours, minutes] = timeStr.split(':').map(Number);
         return hours * 60 + minutes;
     }
 
-    // Function to return the class schedule array
     getClassSchedule() {
         return [
             {
